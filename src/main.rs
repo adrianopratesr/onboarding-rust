@@ -28,26 +28,27 @@ impl Terminal {
         buf.trim().to_string()
     }
 
-    fn ask_for_new_todo(&mut self) -> Todo {
+    fn ask_for_new_todo(&self) -> Todo {
         println!("Qual será seu novo todo? 💬");
         let todo_name = self.input();
         Todo::new(todo_name)
     }
     fn ask_if_new_todo(&self) -> bool {
         println!("Você deseja criar um novo TODO? ⛏  (insira apenas n ou s)");
-        let response = self.input();
+        let response: String = self.input();
 
         loop {
-    
-            if response == "s" {
-                break;
-            } else if response == "n" {
-                println!("Tchau brigado 🙃");
-                std::process::exit(0);
-            } else {
-                println!("Resposta inválida. Insira apenas 's' para sim ou 'n' para não.");
-                self.ask_if_new_todo();
-                break;
+            match response.as_str() {
+                "s" => break,
+                "n" => {
+                    println!("Tchau brigado 🙃");
+                    std::process::exit(0);
+                },
+                _ => {
+                    println!("Resposta inválida. Insira apenas 's' para sim ou 'n' para não.");
+                    self.ask_if_new_todo();
+                    break;
+                }
             }
         }
         true
