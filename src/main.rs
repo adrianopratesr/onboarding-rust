@@ -6,7 +6,7 @@ use terminal::Terminal;
 use todo::Todo;
 
 fn main() -> Result<()> {
-    let mut terminal = Terminal::new();
+    let terminal = Terminal::new();
     loop {
         terminal.ask_if_new_todo()?;
         let new_todo = terminal.ask_for_new_todo()?;

@@ -2,15 +2,18 @@ use crate::Todo;
 use console::Term;
 use std::io::Result;
 
-pub struct Terminal;
-
+pub struct Terminal {
+    term: Term,
+}
 impl Terminal {
     pub fn new() -> Self {
-        Terminal
+        Terminal {
+            term: Term::stdout(),
+        }
     }
 
     pub fn input(&self) -> Result<String> {
-        Term::stdout().read_line()
+        self.term.read_line()
     }
 
     pub fn ask_for_new_todo(&self) -> Result<Todo> {
@@ -37,9 +40,10 @@ impl Terminal {
         Ok(true)
     }
 
-    pub fn show_todo(&mut self, todo: &Todo) -> Result<()> {
+    pub fn show_todo(&self, todo: &Todo) -> Result<()> {
         println!("Qual o seu todo?");
-        writeln!(self.stdout, "Seu todo é: {}", todo.message)?;
+        self.term
+            .write_line(&format!("Seu todo é: {}", todo.message))?;
 
         Ok(())
     }
