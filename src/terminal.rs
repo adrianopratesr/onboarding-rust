@@ -23,16 +23,19 @@ impl Terminal {
     }
 
     pub fn ask_if_new_todo(&self) -> Result<bool> {
-        println!("Você deseja criar um novo TODO? ⛏  (insira apenas n ou s)");
-        let response: String = self.input()?;
+
 
         loop {
+            println!("Você deseja criar um novo TODO? ⛏  (insira apenas n ou s)");
+            let response = self.input()?;
             match response.as_str() {
                 "s" => break,
-                "n" => panic!("O gerador de todo foi fechado como solicitado"),
+                "n" => {
+                    println!("Saindo do gerador de todo");
+                    std::process::exit(0);
+                }
                 _ => {
                     println!("Resposta inválida. Insira apenas 's' para sim ou 'n' para não.");
-                    self.ask_if_new_todo()?;
                     break;
                 }
             }
